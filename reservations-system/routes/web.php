@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants_page');
+Route::post('/restaurants/add', [RestaurantController::class, 'create'])->name('add_restaurant');

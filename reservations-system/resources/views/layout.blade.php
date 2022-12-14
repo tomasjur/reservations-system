@@ -20,8 +20,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
-                    <a class="nav-link" href="#">Restaurants</a>
+                    <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link" href="{{ route('restaurants_page') }}">Restaurants</a>
                     <a class="nav-link" href="#">Reservations list</a>
                     <a class="nav-link" href="#">Make a Reservation</a>
                 </div>
