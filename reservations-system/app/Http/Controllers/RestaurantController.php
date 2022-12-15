@@ -13,22 +13,23 @@ class RestaurantController extends Controller
         return view('restaurants');
     }
 
+    // Create a new restaurant
     public function create(Request $request) {
         $name = $request->input('name');
         $tables = $request->input('tables');
         $max_people = $request->input('max_people');
 
-        /*$validator = Validator::make([$name, $tables, $max_people], [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'tables' => 'required|numeric',
-            'max_people' => 'required|numeric'
+            'tables' => 'required',
+            'max_people' => 'required'
         ]);
  
         if ($validator->fails()) {
             return redirect('/restaurants')
                         ->withErrors($validator)
                         ->withInput();
-        }*/
+        }
 
         Restaurant::create([
             'name' => $name,

@@ -22,8 +22,7 @@
                 <div class="navbar-nav">
                     <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                     <a class="nav-link" href="{{ route('restaurants_page') }}">Restaurants</a>
-                    <a class="nav-link" href="#">Reservations list</a>
-                    <a class="nav-link" href="#">Make a Reservation</a>
+                    <a class="nav-link" href="{{ route('reservations') }}">Reservations</a>
                 </div>
             </div>
         </div>

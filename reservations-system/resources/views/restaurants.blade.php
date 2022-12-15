@@ -1,12 +1,19 @@
 @extends('layout')
 
 @section('content')
-<center><h2>Add a new restaurant</h2></center>
+<center>
+    <h2>Add a new restaurant</h2>
+</center>
 @foreach ($errors->all() as $error)
-  <div>{{ $error }}</div>
+<div>{{ $error }}</div>
 @endforeach
 @if(isset($success) && $success == "true")
-<center><h4 style="color: green">Restaurant was successfully added!</h4></center>
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Restaurant was successfully added!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
 @endif
 <div class="container">
     <form action="{{ route('add_restaurant') }}" method="POST">
