@@ -36,6 +36,6 @@ class RestaurantController extends Controller
             'tables' => $tables,
             'max_people' => $max_people
         ]);
-        return view('restaurants', ['success' => 'true']);
+        return redirect('restaurants')->with('success', 'true');
     }
 }

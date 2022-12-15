@@ -7,7 +7,7 @@
 @foreach ($errors->all() as $error)
 <div>{{ $error }}</div>
 @endforeach
-@if(isset($success) && $success == "true")
+@if(Session::has('success'))
 <div class="container">
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Restaurant was successfully added!</strong>
