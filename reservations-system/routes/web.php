@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 // Restaurants
 Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants_page');
+Route::post('/restaurants/addFields', [RestaurantController::class, 'addFields'])->name('addFields_restaurant');
 Route::post('/restaurants/add', [RestaurantController::class, 'create'])->name('add_restaurant');
 
 // Reservations
