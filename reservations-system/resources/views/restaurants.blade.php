@@ -22,15 +22,18 @@
             <label for="name">Restaurant name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="e. g. Oxomoco" required>
         </div>
-        <div class="form-group">
-            <label for="tables">Number of tables (min: 1)</label>
-            <input type="number" class="form-control" id="tables" name="tables" min="1" value="1" required>
-        </div>
-        <div class="form-group">
-            <label for="max_people">Maximum amount of people (min: 1)</label>
-            <input type="number" class="form-control" id="max_people" name="max_people" min="1" value="1" required>
-        </div>
-        <br>
+        <div class="row">
+            <div class="form-group col">
+                <label for="tables">Number of tables</label>
+                <input type="number" class="form-control" id="tables" name="tables" min="1" value="1" required>
+                <div id="tablesHelp" class="form-text">Minimum 1.</div>
+            </div>
+            <div class="form-group col">
+                <label for="max_people">Maximum amount of people (considering 1 table fits 4 people)</label>
+                <input type="number" class="form-control" id="max_people" name="max_people" min="1" value="1" required>
+                <div id="peopleHelp" class="form-text">Minimum 1.</div>
+            </div>
+        </div><br>
         <button type="submit" class="btn btn-primary">Submit</button> (all fields are required)
     </form>
 </div>

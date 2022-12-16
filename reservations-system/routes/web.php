@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+// Restaurants
 Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants_page');
 Route::post('/restaurants/add', [RestaurantController::class, 'create'])->name('add_restaurant');
+
+// Reservations
 Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
 Route::post('/reservations/add', [ReservationController::class, 'create'])->name('add_reservation');
