@@ -14,7 +14,7 @@ class Reservation extends Model
 
     // Protected setter for fillable.
     protected $fillable = [
-        'restaurant_id', 'reserver_name', 'reserver_surname', 'reserver_email', 'reserver_phone', 'start_date', 'duration', 'end_date'
+        'restaurant_id', 'reserver_name', 'reserver_surname', 'reserver_email', 'reserver_phone', 'start_date', 'duration', 'end_date', 'tables_count', 'people_count'
     ];
 
     // One To Many Inverse, to find which restaurant belongs to the reservation
