@@ -24,14 +24,12 @@ class RestaurantController extends Controller
     public function create(Request $request) {
         $name = $request->input('name');
         $tables = $request->input('tables');
-        $max_people = $request->input('max_people');
+        //$max_people = $request->input('max_people');
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'tables' => 'required',
-            'max_people' => 'required'
         ]);
-
         if ($validator->fails()) {
             return redirect('/restaurants')
                         ->withErrors($validator)
@@ -42,20 +40,25 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::create([
             'name' => $name,
             'tables' => $tables,
-            'max_people' => $max_people
         ]);
         // Get created restaurant ID
         $restaurant_id = $restaurant->id;
 
         // Save each filled table data
+        $max_people = 0;
         for ($i = 1; $i <= $tables; $i++) {
             if ($request->filled('table'.$i)) {
                 RestaurantTable::create([
                     'restaurant_id' => $restaurant_id,
                     'people_count' => $request->input('table'.$i)
                 ]);
+                $max_people += $request->input('table'.$i);
             }
         }
+
+        // Update max_people count in DB
+        $restaurant->max_people = $max_people;
+        $restaurant->save();
 
         // Return with success message
         return redirect('restaurants')->with('success', 'true');

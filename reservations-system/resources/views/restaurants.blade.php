@@ -36,11 +36,6 @@
                 @endif
                 <div id="tablesHelp" class="form-text">Minimum 1.</div>
             </div>
-            <div class="form-group col">
-                <label for="max_people">Maximum amount of people</label>
-                <input type="number" class="form-control" id="max_people" name="max_people" min="1" value="{{ old('max_people') }}" required>
-                <div id="peopleHelp" class="form-text">Minimum 1.</div>
-            </div>
         </div><br>
         @if(Session::has('tables_fields'))
         @php
