@@ -17,48 +17,64 @@ class ReservationController extends Controller
         return view('reservations', ['restaurants' => $restaurants, 'reservations' => $reservations]);
     }
     
+    // Refresh the page to add additional fields depending on the number of guests
+    public function addFields(Request $request) {
+        $guests = $request->input('guests');
+        return redirect('reservations')->withInput()->with('guests_fields', $guests-1);
+    }
+
     public function create(Request $request) {
         $restaurant_id = $request->input('restaurant_name');
-        $reserver_name = $request->input('reserver_name');
-        $reserver_surname = $request->input('reserver_surname');
-        $reserver_email = $request->input('reserver_email');
-        $reserver_phone = $request->input('reserver_phone');
         $start_date = $request->input('date');
         $duration = $request->input('duration');
+        $guests = $request->input('guests');
         $end_date = Carbon::parse($start_date)->addHours($duration);
 
-        // Start calculating request reservation people from 1
-        // because if there are no additional guests, we still have a reserver
+        // Start calculating request reservation people from 1 because if there are no additional guests, we still have a reserver
         $people_count = 1;
-        // Check how many guests were filled in a form
-        for ($i = 1; $i <= 20; $i++) {
+        // Check how many guests were filled in a form (in case not all fields were filled)
+        for ($i = 1; $i < $guests; $i++) {
             if ($request->filled('person'.$i.'_name') && 
                 $request->filled('person'.$i.'_surname') &&
                 $request->filled('person'.$i.'_email')) {
                 $people_count++;
             }
         }
-        // Considering that each table can have 4 people, we calculate how many tables we will need
-        $tables = ceil($people_count / 4);
-
-        // Get reservation ids from DB
-        $reservations_ids = Reservation::where('restaurant_id', $restaurant_id)->get('id');
-        // Count how many reservations there exists (1 reserver for each reservation)
-        $already_reserved_people = count($reservations_ids);
-        // Find the total amount of additional guests among all reservations
-        foreach ($reservations_ids as $reservations_id) {
-            $already_reserved_people += ReservationPerson::where('reservations_id', $reservations_id)->count();
-        }
-        // Considering that each table can have 4 people, we calculate how many tables are already reserved
-        $already_reserved_tables = ceil($already_reserved_people / 4);
 
         // Get certain restaurant limits (tables and max_people)
-        $restaurant = Restaurant::where('id', $restaurant_id)->first();
+        $restaurant = Restaurant::find($restaurant_id);
         $restaurant_tables = $restaurant->tables;
         $restaurant_max_people = $restaurant->max_people;
 
+        // If restaurant can't fit this amount of people at all throw an error
+        if ($people_count > $restaurant_max_people) {
+            return redirect('reservations')->with('error', 'Reservation cannot be made. Selected restaurant do not accept this amount of people.');
+        }
+        
+        // Find all reservations later than yesterday's midnight (to not get old reservations)
+        $yesterday = Carbon::yesterday();
+        $restaurant_reservations = Reservation::where('restaurant_id', $restaurant_id)->where('start_date', '>=', $yesterday)->get();
+        // Find overlapping reservations
+        $overlapping_reservations = $restaurant_reservations->where([
+                                        ['start_date', '<', $start_date],
+                                        ['end_date', '>', $start_date],
+                                    ])->orWhere([
+                                        ['start_date', '>', $start_date],
+                                        ['start_date', '<', $end_date],
+                                    ])->orWhere('start_date', $start_date)->get();
+        
+        // Calculate how many people will be at restaurant during that time
+        
+        // Calculate how many tables are used during requested time
 
-        Reservation::create([
+
+        // Remaining form inputs to create a reservation
+        $reserver_name = $request->input('reserver_name');
+        $reserver_surname = $request->input('reserver_surname');
+        $reserver_email = $request->input('reserver_email');
+        $reserver_phone = $request->input('reserver_phone');
+
+        $created_reservation = Reservation::create([
             'restaurant_id' => $restaurant_id,
             'reserver_name' => $reserver_name,
             'reserver_surname' => $reserver_surname,
@@ -66,8 +82,13 @@ class ReservationController extends Controller
             'reserver_phone' => $reserver_phone,
             'start_date' => $start_date,
             'duration' => $duration,
-            'end_date' => $end_date
+            'end_date' => $end_date,
+            'people_count' => $guests
         ]);
+        $created_reservation_id = $created_reservation->id;
+
+        // Save additional guests list
+
         return redirect('reservations')->with('success', 'true');
     }
 }
