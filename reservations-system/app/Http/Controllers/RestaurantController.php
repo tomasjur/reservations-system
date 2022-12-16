@@ -24,7 +24,6 @@ class RestaurantController extends Controller
     public function create(Request $request) {
         $name = $request->input('name');
         $tables = $request->input('tables');
-        //$max_people = $request->input('max_people');
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
