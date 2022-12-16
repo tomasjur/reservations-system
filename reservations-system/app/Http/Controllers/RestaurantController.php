@@ -14,7 +14,7 @@ class RestaurantController extends Controller
         return view('restaurants');
     }
 
-    // Refresh the page in order to add additional fields
+    // Refresh the page to add additional fields depending on the number of tables
     public function addFields(Request $request) {
         $tables = $request->input('tables');
         return redirect('restaurants')->withInput()->with('tables_fields', $tables);
@@ -57,6 +57,7 @@ class RestaurantController extends Controller
             }
         }
 
+        // Return with success message
         return redirect('restaurants')->with('success', 'true');
     }
 }
