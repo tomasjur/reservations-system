@@ -17,6 +17,11 @@ class Restaurant extends Model
         'name', 'tables', 'max_people'
     ];
 
+    // One To Many, one restaurant can have many tables
+    public function restaurant_tables() {
+        return $this->hasMany(RestaurantTable::class, 'restaurant_id');
+    }
+
     // One To Many, one restaurant can have many reservations
     public function reservations() {
         return $this->hasMany(Reservation::class, 'restaurant_id');
