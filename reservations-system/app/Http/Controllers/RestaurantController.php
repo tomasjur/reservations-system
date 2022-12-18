@@ -11,7 +11,9 @@ class RestaurantController extends Controller
 {
     //
     public function index() {
-        return view('restaurants');
+        $restaurants = Restaurant::all();
+        $tables = RestaurantTable::all();
+        return view('restaurants', ['restaurants' => $restaurants, 'tables' => $tables]);
     }
 
     // Refresh the page to add additional fields depending on the number of tables

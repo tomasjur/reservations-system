@@ -54,4 +54,30 @@
         <button type="submit" class="btn btn-primary">Submit</button> (all fields are required)
     </form>
 </div>
+<div class="container">
+    <table class="table table-hover">
+        <tr class="table-success">
+            <th>#</th>
+            <th>Restaurant Name</th>
+            <th>Tables</th>
+            <th>Maximum People</th>
+        </tr>
+        @if(isset($restaurants) && isset($tables))
+        @foreach($restaurants as $restaurant)
+        <tr>
+            <td>{{ $restaurant->id }}</td>
+            <td>{{ $restaurant->name }}</td>
+            <td><b>{{ $restaurant->tables }}:</b>  
+                @foreach($tables as $table)
+                @if($table->restaurant_id == $restaurant->id)
+                {{ $table->people_count }} 
+                @endif
+                @endforeach
+            </td>
+            <td>{{ $restaurant->max_people }}</td>
+        </tr>
+        @endforeach
+        @endif
+    </table>
+</div>
 @stop
