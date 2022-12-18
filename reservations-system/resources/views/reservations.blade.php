@@ -97,15 +97,15 @@
         <div class="row">
             <div class="form-group col">
                 <label for="person{{$i}}_name">Name</label>
-                <input type="text" class="form-control" id="person{{$i}}_name" name="person{{$i}}_name" placeholder="Name {{$i}}">
+                <input type="text" class="form-control" id="person{{$i}}_name" name="person{{$i}}_name" placeholder="Name {{$i}}" value="MyName">
             </div>
             <div class="form-group col">
                 <label for="person{{$i}}_surname">Surname</label>
-                <input type="text" class="form-control" id="person{{$i}}_surname" name="person{{$i}}_surname" placeholder="Surname {{$i}}">
+                <input type="text" class="form-control" id="person{{$i}}_surname" name="person{{$i}}_surname" placeholder="Surname {{$i}}" value="MySurname">
             </div>
             <div class="form-group col">
                 <label for="person{{$i}}_email">Email</label>
-                <input type="email" class="form-control" id="person{{$i}}_email" name="person{{$i}}_email" placeholder="name{{$i}}@example.com">
+                <input type="email" class="form-control" id="person{{$i}}_email" name="person{{$i}}_email" placeholder="name{{$i}}@example.com" value="name@example.com">
             </div>
         </div>
         @endfor
